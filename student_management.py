@@ -64,28 +64,36 @@ class StudentManagementApp:
         title = tk.Label(self.root, text="EVSU Student Management System", font=("Arial", 20, "bold"))
         title.pack(side=tk.TOP, fill=tk.X)
 
-        input_frame = tk.Frame(self.root, bd=2, relief=tk.RIDGE, padx=10, pady=10)
+        input_frame = tk.LabelFrame(self.root, text="Student Registration", font=("Arial", 12, "bold"), padx=10, pady=10)
         input_frame.place(x=10, y=50, width=300, height=400)
 
-        tk.Label(input_frame, text="Name").grid(row=0, column=0, pady=5, sticky=tk.W)
-        tk.Entry(input_frame, textvariable=self.name_var).grid(row=0, column=1, pady=5)
+        tk.Label(input_frame, text="Name:", font=("Arial", 10)).grid(row=0, column=0, pady=5, sticky=tk.W)
+        tk.Entry(input_frame, textvariable=self.name_var, font=("Arial", 10)).grid(row=0, column=1, pady=5)
 
-        tk.Label(input_frame, text="Age").grid(row=1, column=0, pady=5, sticky=tk.W)
-        tk.Entry(input_frame, textvariable=self.age_var).grid(row=1, column=1, pady=5)
+        tk.Label(input_frame, text="Age:", font=("Arial", 10)).grid(row=1, column=0, pady=5, sticky=tk.W)
+        tk.Entry(input_frame, textvariable=self.age_var, font=("Arial", 10)).grid(row=1, column=1, pady=5)
 
-        tk.Label(input_frame, text="Gender").grid(row=2, column=0, pady=5, sticky=tk.W)
-        tk.Entry(input_frame, textvariable=self.gender_var).grid(row=2, column=1, pady=5)
+        tk.Label(input_frame, text="Gender:", font=("Arial", 10)).grid(row=2, column=0, pady=5, sticky=tk.W)
+        gender_combo = ttk.Combobox(input_frame, textvariable=self.gender_var, values=("Male", "Female"), state="readonly", font=("Arial", 10))
+        gender_combo.grid(row=2, column=1, pady=5)
+        gender_combo.set("Select Gender")
 
-        tk.Label(input_frame, text="Course").grid(row=3, column=0, pady=5, sticky=tk.W)
-        tk.Entry(input_frame, textvariable=self.course_var).grid(row=3, column=1, pady=5)
+        tk.Label(input_frame, text="Course:", font=("Arial", 10)).grid(row=3, column=0, pady=5, sticky=tk.W)
+        course_combo = ttk.Combobox(input_frame, textvariable=self.course_var, 
+                                    values=("BS in Information Technology (BSIT)", "BS in Industrial Technology (Electronics)", "BS in Civil Engineering (BSCE)", "BS in Mechanical Engineering (BSME)", 
+                                            "BS in Industrial Technology (Culinary Arts)"), state="readonly", font=("Arial", 10))
+        course_combo.grid(row=3, column=1, pady=5)
+        course_combo.set("Select Course")
 
-        # Buttons
-        tk.Button(input_frame, text="Add", command=self.add_record).grid(row=4, column=0, pady=10)
-        tk.Button(input_frame, text="Update", command=self.update_record).grid(row=4, column=1, pady=10)
-        tk.Button(input_frame, text="Delete", command=self.delete_record).grid(row=5, column=0, pady=10)
+        btn_frame = tk.Frame(input_frame)
+        btn_frame.grid(row=4, column=0, columnspan=2, pady=10)
+
+        tk.Button(btn_frame, text="Add", command=self.add_record, font=("Arial", 10), width=5).pack(side=tk.LEFT, padx=10)
+        tk.Button(btn_frame, text="Update", command=self.update_record, font=("Arial", 10), width=5).pack(side=tk.LEFT, padx=10)
+        tk.Button(btn_frame, text="Delete", command=self.delete_record, font=("Arial", 10), width=5).pack(side=tk.LEFT, padx=10)
 
         table_frame = tk.Frame(self.root, bd=2, relief=tk.RIDGE)
-        table_frame.place(x=320, y=50, width=1100, height=500)
+        table_frame.place(x=320, y=50, width=1000, height=400)
 
         self.tree = ttk.Treeview(table_frame, columns=("ID", "Name", "Age", "Gender", "Course"), show="headings")
         self.tree.heading("ID", text="ID")
@@ -93,6 +101,13 @@ class StudentManagementApp:
         self.tree.heading("Age", text="Age")
         self.tree.heading("Gender", text="Gender")
         self.tree.heading("Course", text="Course")
+
+        self.tree.column("ID", width=50)
+        self.tree.column("Name", width=100)
+        self.tree.column("Age", width=50)
+        self.tree.column("Gender", width=100)
+        self.tree.column("Course", width=150)
+        
         self.tree.pack(fill=tk.BOTH, expand=True)
         self.tree.bind("<ButtonRelease-1>", self.select_record)
 
@@ -118,6 +133,12 @@ class StudentManagementApp:
         if not self.name_var.get():
             messagebox.showerror("Error", "Name is required")
             return
+        if self.gender_var.get() == "Select Gender":
+            messagebox.showerror("Error", "Please select a gender")
+            return
+        if self.course_var.get() == "Select Course":
+            messagebox.showerror("Error", "Please select a course")
+            return
         add_student(self.name_var.get(), self.age_var.get(), self.gender_var.get(), self.course_var.get())
         self.load_data()
         messagebox.showinfo("Success", "Student added successfully")
@@ -141,5 +162,6 @@ class StudentManagementApp:
 if __name__ == "__main__":
     initialize_db()
     root = tk.Tk()
+    root.attributes("-zoomed", True)
     app = StudentManagementApp(root)
     root.mainloop()
