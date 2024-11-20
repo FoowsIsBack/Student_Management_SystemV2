@@ -144,7 +144,7 @@ class StudentManagementApp:
 
     def add_record(self):
         if not self.name_var.get() or not self.contact_var.get():
-            messagebox.showerror("Oops Error!", "Name and Contact are required")
+            messagebox.showerror("Oops Error!", "Register first!")
             return
         if self.gender_var.get() == "Select Gender":
             messagebox.showerror("Oops Error!", "Please select a gender")
