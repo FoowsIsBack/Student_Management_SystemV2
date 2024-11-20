@@ -69,7 +69,7 @@ class StudentManagementApp:
         title.pack(side=tk.TOP, fill=tk.X, pady=30)
 
         input_frame = tk.LabelFrame(self.root, text="Student Registration", font=("Arial", 16, "bold"), padx=20, pady=20, bd=0, relief="solid", fg="#1E1E1E")
-        input_frame.place(x=20, y=100, width=400, height=550)
+        input_frame.place(x=20, y=100, width=400, height=400)
 
         tk.Label(input_frame, text="Name:", font=("Arial", 14)).grid(row=0, column=0, pady=10, sticky=tk.W)
         self.name_entry = tk.Entry(input_frame, textvariable=self.name_var, font=("Arial", 14), bd=2, relief="solid", width=20, highlightbackground="#B0BEC5")
@@ -101,7 +101,7 @@ class StudentManagementApp:
         tk.Button(btn_frame, text="Delete", command=self.delete_record, font=("Arial", 14), bg="#F44336", fg="white", width=5, relief="flat", bd=2, activebackground="#D32F2F").grid(row=0, column=2, padx=10, pady=10)
 
         table_frame = tk.Frame(self.root, bd=2, relief=tk.RIDGE, bg="#ECEFF1")
-        table_frame.place(x=450, y=100, width=700, height=550)
+        table_frame.place(x=450, y=100, width=700, height=400)
 
         self.tree = ttk.Treeview(table_frame, columns=("ID", "Name", "Age", "Gender", "Course", "Contact"), show="headings")
         self.tree.heading("ID", text="ID")
