@@ -3,8 +3,10 @@ from tkinter import ttk, messagebox
 import sqlite3
 from tkinter import font as tkfont
 
+DATABASE_NAME = "result.db"
+
 def initialize_db():
-    with sqlite3.connect("student_management.db") as conn:
+    with sqlite3.connect(DATABASE_NAME) as conn:
         cursor = conn.cursor()
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS students (
@@ -19,21 +21,21 @@ def initialize_db():
         conn.commit()
 
 def add_student(name, age, gender, course, contact):
-    with sqlite3.connect("student_management.db") as conn:
+    with sqlite3.connect(DATABASE_NAME) as conn:
         cursor = conn.cursor()
         cursor.execute("INSERT INTO students (name, age, gender, course, contact) VALUES (?, ?, ?, ?, ?)", 
                        (name, age, gender, course, contact))
         conn.commit()
 
 def fetch_students():
-    with sqlite3.connect("student_management.db") as conn:
+    with sqlite3.connect(DATABASE_NAME) as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM students")
         rows = cursor.fetchall()
     return rows
 
 def update_student(student_id, name, age, gender, course, contact):
-    with sqlite3.connect("student_management.db") as conn:
+    with sqlite3.connect(DATABASE_NAME) as conn:
         cursor = conn.cursor()
         cursor.execute("""
             UPDATE students
@@ -43,7 +45,7 @@ def update_student(student_id, name, age, gender, course, contact):
         conn.commit()
 
 def delete_student(student_id):
-    with sqlite3.connect("student_management.db") as conn:
+    with sqlite3.connect(DATABASE_NAME) as conn:
         cursor = conn.cursor()
         cursor.execute("DELETE FROM students WHERE id = ?", (student_id,))
         conn.commit()
@@ -52,9 +54,8 @@ class StudentManagementApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Student Management System")
-        self.root.geometry("1200x700")
-        self.root.config(bg="#ECEFF1")
-
+        self.root.geometry("1200x650")
+        self.root.config(bg="whitesmoke")
         self.name_var = tk.StringVar()
         self.age_var = tk.IntVar()
         self.gender_var = tk.StringVar()
@@ -65,31 +66,31 @@ class StudentManagementApp:
         self.setup_ui()
 
     def setup_ui(self):
-        title = tk.Label(self.root, text="EVSU Student Management System", font=("Poppins", 28, "bold"), fg="#333333", bg="#ECEFF1")
+        title = tk.Label(self.root, text="Student Management System", font=("Poppins", 28, "bold"), fg="black", bg="red1")
         title.pack(side=tk.TOP, fill=tk.X, pady=30)
 
-        input_frame = tk.LabelFrame(self.root, text="Student Registration", font=("Arial", 16, "bold"), padx=20, pady=20, bd=0, relief="solid", fg="#1E1E1E")
+        input_frame = tk.LabelFrame(self.root, text="Student Registration", font=("Poppins", 16, "bold"), padx=20, pady=20, bd=3, bg="whitesmoke", relief="solid", fg="black")
         input_frame.place(x=20, y=100, width=400, height=400)
 
         tk.Label(input_frame, text="Name:", font=("Arial", 14)).grid(row=0, column=0, pady=10, sticky=tk.W)
-        self.name_entry = tk.Entry(input_frame, textvariable=self.name_var, font=("Arial", 14), bd=2, relief="solid", width=20, highlightbackground="#B0BEC5")
+        self.name_entry = tk.Entry(input_frame, textvariable=self.name_var, font=("Arial", 15), bd=2, relief="solid", width=20, highlightbackground="#B0BEC5")
         self.name_entry.grid(row=0, column=1, pady=10, padx=10, sticky=tk.W)
 
         tk.Label(input_frame, text="Age:", font=("Arial", 14)).grid(row=1, column=0, pady=10, sticky=tk.W)
-        self.age_entry = tk.Entry(input_frame, textvariable=self.age_var, font=("Arial", 14), bd=2, relief="solid", width=20, highlightbackground="#B0BEC5")
+        self.age_entry = tk.Entry(input_frame, textvariable=self.age_var, font=("Arial", 15), bd=2, relief="solid", width=20, highlightbackground="#B0BEC5")
         self.age_entry.grid(row=1, column=1, pady=10, padx=10, sticky=tk.W)
 
         tk.Label(input_frame, text="Contact:", font=("Arial", 14)).grid(row=2, column=0, pady=10, sticky=tk.W)
-        self.contact_entry = tk.Entry(input_frame, textvariable=self.contact_var, font=("Arial", 14), bd=2, relief="solid", width=20, highlightbackground="#B0BEC5")
+        self.contact_entry = tk.Entry(input_frame, textvariable=self.contact_var, font=("Arial", 15), bd=2, relief="solid", width=20, highlightbackground="#B0BEC5")
         self.contact_entry.grid(row=2, column=1, pady=10, padx=10, sticky=tk.W)
 
         tk.Label(input_frame, text="Gender:", font=("Arial", 14)).grid(row=3, column=0, pady=10, sticky=tk.W)
-        gender_combo = ttk.Combobox(input_frame, textvariable=self.gender_var, values=("Male", "Female"), state="readonly", font=("Arial", 12), width=20)
+        gender_combo = ttk.Combobox(input_frame, textvariable=self.gender_var, values=("Male", "Female"), state="readonly", font=("Arial", 15), width=20)
         gender_combo.grid(row=3, column=1, pady=10, padx=10, sticky=tk.W)
         gender_combo.set("Select Gender")
 
         tk.Label(input_frame, text="Course:", font=("Arial", 14)).grid(row=4, column=0, pady=10, sticky=tk.W)
-        course_combo = ttk.Combobox(input_frame, textvariable=self.course_var, values=("BSIT", "BSIE", "BSCE", "BSME", "Culinary Arts"), state="readonly", font=("Arial", 12), width=20)
+        course_combo = ttk.Combobox(input_frame, textvariable=self.course_var, values=("BS in Information Technology (BSIT)", "BS in Civil Engineering (BSCE)", "BS in Mechanical Engineering (BSME)", "BS in Industrial Technology (Culinary Arts)", "BS in Industrial Technology (Electronics)"), state="readonly", font=("Arial", 15), width=20)
         course_combo.grid(row=4, column=1, pady=10, padx=10, sticky=tk.W)
         course_combo.set("Select Course")
 
@@ -112,16 +113,14 @@ class StudentManagementApp:
         self.tree.heading("Contact", text="Contact")
 
         self.tree.column("ID", width=50, anchor="center")
-        self.tree.column("Name", width=150)
-        self.tree.column("Age", width=50)
-        self.tree.column("Gender", width=100)
-        self.tree.column("Course", width=150)
-        self.tree.column("Contact", width=150)
-
+        self.tree.column("Name", width=150, anchor="center")
+        self.tree.column("Age", width=50, anchor="center")
+        self.tree.column("Gender", width=100, anchor="center")
+        self.tree.column("Course", width=150, anchor="center")
+        self.tree.column("Contact", width=150, anchor="center")
         style = ttk.Style()
         style.configure("Treeview", font=("Arial", 12), background="#F5F5F5", foreground="black", rowheight=25)
-        style.map("Treeview", background=[("selected", "#B3E5FC")])
-
+        style.map("Treeview", background=[("selected", "turquoise3")])
         self.tree.pack(fill=tk.BOTH, expand=True)
         self.tree.bind("<ButtonRelease-1>", self.select_record)
         self.load_data()
