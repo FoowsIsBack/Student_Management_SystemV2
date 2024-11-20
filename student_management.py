@@ -3,52 +3,48 @@ from tkinter import ttk, messagebox
 import sqlite3
 
 def initialize_db():
-    conn = sqlite3.connect("student_management.db")
-    cursor = conn.cursor()
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS students (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            age INTEGER NOT NULL,
-            gender TEXT NOT NULL,
-            course TEXT NOT NULL
-        )
-    """)
-    conn.commit()
-    conn.close()
+    with sqlite3.connect("student_management.db") as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS students (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                age INTEGER NOT NULL,
+                gender TEXT NOT NULL,
+                course TEXT NOT NULL
+            )
+        """)
+        conn.commit()
 
 def add_student(name, age, gender, course):
-    conn = sqlite3.connect("student_management.db")
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO students (name, age, gender, course) VALUES (?, ?, ?, ?)", (name, age, gender, course))
-    conn.commit()
-    conn.close()
+    with sqlite3.connect("student_management.db") as conn:
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO students (name, age, gender, course) VALUES (?, ?, ?, ?)", 
+                       (name, age, gender, course))
+        conn.commit()
 
 def fetch_students():
-    conn = sqlite3.connect("student_management.db")
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM students")
-    rows = cursor.fetchall()
-    conn.close()
+    with sqlite3.connect("student_management.db") as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM students")
+        rows = cursor.fetchall()
     return rows
 
 def update_student(student_id, name, age, gender, course):
-    conn = sqlite3.connect("student_management.db")
-    cursor = conn.cursor()
-    cursor.execute("""
-        UPDATE students
-        SET name = ?, age = ?, gender = ?, course = ?
-        WHERE id = ?
-    """, (name, age, gender, course, student_id))
-    conn.commit()
-    conn.close()
+    with sqlite3.connect("student_management.db") as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            UPDATE students
+            SET name = ?, age = ?, gender = ?, course = ?
+            WHERE id = ?
+        """, (name, age, gender, course, student_id))
+        conn.commit()
 
 def delete_student(student_id):
-    conn = sqlite3.connect("student_management.db")
-    cursor = conn.cursor()
-    cursor.execute("DELETE FROM students WHERE id = ?", (student_id,))
-    conn.commit()
-    conn.close()
+    with sqlite3.connect("student_management.db") as conn:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM students WHERE id = ?", (student_id,))
+        conn.commit()
 
 class StudentManagementApp:
     def __init__(self, root):
@@ -60,11 +56,12 @@ class StudentManagementApp:
         self.age_var = tk.IntVar()
         self.gender_var = tk.StringVar()
         self.course_var = tk.StringVar()
+        self.selected_id = None
 
         self.setup_ui()
 
     def setup_ui(self):
-        title = tk.Label(self.root, text="Student Management System", font=("Arial", 20, "bold"))
+        title = tk.Label(self.root, text="EVSU Student Management System", font=("Arial", 20, "bold"))
         title.pack(side=tk.TOP, fill=tk.X)
 
         input_frame = tk.Frame(self.root, bd=2, relief=tk.RIDGE, padx=10, pady=10)
@@ -126,20 +123,20 @@ class StudentManagementApp:
         messagebox.showinfo("Success", "Student added successfully")
 
     def update_record(self):
-        try:
-            update_student(self.selected_id, self.name_var.get(), self.age_var.get(), self.gender_var.get(), self.course_var.get())
-            self.load_data()
-            messagebox.showinfo("Success", "Student updated successfully")
-        except AttributeError:
+        if self.selected_id is None:
             messagebox.showerror("Error", "No student selected")
+            return
+        update_student(self.selected_id, self.name_var.get(), self.age_var.get(), self.gender_var.get(), self.course_var.get())
+        self.load_data()
+        messagebox.showinfo("Success", "Student updated successfully")
 
     def delete_record(self):
-        try:
-            delete_student(self.selected_id)
-            self.load_data()
-            messagebox.showinfo("Success", "Student deleted successfully")
-        except AttributeError:
+        if self.selected_id is None:
             messagebox.showerror("Error", "No student selected")
+            return
+        delete_student(self.selected_id)
+        self.load_data()
+        messagebox.showinfo("Success", "Student deleted successfully")
 
 if __name__ == "__main__":
     initialize_db()
