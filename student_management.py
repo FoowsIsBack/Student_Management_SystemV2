@@ -64,10 +64,9 @@ class StudentManagementApp:
         self.selected_id = None
 
         self.setup_ui()
-
     def setup_ui(self):
-        title = tk.Label(self.root, text="Student Management System", font=("Poppins", 28, "bold"), fg="black", bg="red1")
-        title.pack(side=tk.TOP, fill=tk.X, pady=30)
+        title = tk.Label(self.root, text="Student Management System", font=("Poppins", 28, "bold"), fg="white", bg="firebrick3", pady=10)
+        title.pack(side=tk.TOP, fill=tk.X)
 
         input_frame = tk.LabelFrame(self.root, text="Student Registration", font=("Poppins", 16, "bold"), padx=20, pady=20, bd=3, bg="whitesmoke", relief="solid", fg="black")
         input_frame.place(x=20, y=100, width=400, height=400)
@@ -144,7 +143,7 @@ class StudentManagementApp:
 
     def add_record(self):
         if not self.name_var.get() or not self.contact_var.get():
-            messagebox.showerror("Oops Error!", "Register first!")
+            messagebox.showerror("Oops Error!", "")
             return
         if self.gender_var.get() == "Select Gender":
             messagebox.showerror("Oops Error!", "Please select a gender")
