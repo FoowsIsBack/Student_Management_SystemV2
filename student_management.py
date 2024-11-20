@@ -144,13 +144,13 @@ class StudentManagementApp:
 
     def add_record(self):
         if not self.name_var.get() or not self.contact_var.get():
-            messagebox.showerror("Error", "Name and Contact are required")
+            messagebox.showerror("Oops Error!", "Name and Contact are required")
             return
         if self.gender_var.get() == "Select Gender":
-            messagebox.showerror("Error", "Please select a gender")
+            messagebox.showerror("Oops Error!", "Please select a gender")
             return
         if self.course_var.get() == "Select Course":
-            messagebox.showerror("Error", "Please select a course")
+            messagebox.showerror("Oops Error!", "Please select a course")
             return
         add_student(self.name_var.get(), self.age_var.get(), self.gender_var.get(), self.course_var.get(), self.contact_var.get())
         self.load_data()
@@ -158,7 +158,7 @@ class StudentManagementApp:
 
     def update_record(self):
         if self.selected_id is None:
-            messagebox.showerror("Error", "No student selected")
+            messagebox.showerror("Oops Error!", "No student selected")
             return
         update_student(self.selected_id, self.name_var.get(), self.age_var.get(), self.gender_var.get(), self.course_var.get(), self.contact_var.get())
         self.load_data()
@@ -166,7 +166,7 @@ class StudentManagementApp:
 
     def delete_record(self):
         if self.selected_id is None:
-            messagebox.showerror("Error", "No student selected")
+            messagebox.showerror("Oops Error!", "No student selected")
             return
         delete_student(self.selected_id)
         self.load_data()
