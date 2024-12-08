@@ -107,7 +107,7 @@ def setup_ui(root):
     root.geometry("1200x650")
     root.config(bg="whitesmoke")
 
-    title = tk.Label(root, text="Student Management System", font=("bold", 28, "bold"), fg="white", bg="firebrick3", pady=10)
+    title = tk.Label(root, text="Student Management System", font=("Poppins", 28, "bold"), fg="white", bg="firebrick3", pady=10)
     title.pack(side=tk.TOP, fill=tk.X)
 
     input_frame = tk.LabelFrame(root, text="Student Registration", font=("Poppins", 16, "bold"), padx=20, pady=20, bd=3, bg="whitesmoke", relief="solid", fg="black")
@@ -224,10 +224,11 @@ def login_ui(root):
     global username_var, password_var
     root.title("Student Management System")
     root.geometry("500x400")
-    root.config(bg="whitesmoke") 
+    root.config(bg="whitesmoke")
 
     title = tk.Label(root, text="Login Account", font=("bold", 28, "bold"), fg="white", bg="firebrick3", pady=10)
     title.pack(side=tk.TOP, fill=tk.X)
+
     frame = tk.Frame(root, bg="whitesmoke")
     frame.pack(pady=10, padx=20)
 
@@ -236,7 +237,6 @@ def login_ui(root):
 
     tk.Label(frame, text="Password:", font=("Arial", 14), bg="whitesmoke", anchor="w").grid(row=1, column=0, pady=10, padx=10, sticky="w")
     tk.Entry(frame, textvariable=password_var, font=("Arial", 14), bd=2, relief="solid", show="*", width=25).grid(row=1, column=1, pady=10, padx=10)
-
     button_frame = tk.Frame(root, bg="whitesmoke")
     button_frame.pack(pady=20)
 
@@ -246,12 +246,13 @@ def login_ui(root):
 
 def registration_ui():
     reg_root = tk.Tk()
+    global reg_username_var, reg_password_var
+    reg_username_var = tk.StringVar()
+    reg_password_var = tk.StringVar()
+
     reg_root.title("Register Form")
     reg_root.geometry("500x400")
     reg_root.config(bg="whitesmoke")
-
-    reg_username_var = tk.StringVar()
-    reg_password_var = tk.StringVar()
 
     def showpassword():
         if password_entry.cget('show') == '*':
