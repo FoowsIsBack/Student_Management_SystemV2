@@ -7,6 +7,9 @@
 # Register
 ![image](https://github.com/user-attachments/assets/a579bedb-9a2a-418d-8d08-cd09fdcb6f7a)
 
+# Database
+![image](https://github.com/user-attachments/assets/e18a276d-b776-4f93-a7e4-15bf9d1024c0)
+
 # Install
 ```sh
 git clone https://github.com/FoowsIsBack/Student_Management_System.git
