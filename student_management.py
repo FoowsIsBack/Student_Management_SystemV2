@@ -107,7 +107,7 @@ def setup_ui(root):
     root.geometry("1200x650")
     root.config(bg="whitesmoke")
 
-    title = tk.Label(root, text="Student Management System", font=("Poppins", 28, "bold"), fg="white", bg="firebrick3", pady=10)
+    title = tk.Label(root, text="Student Management System", font=("bold", 28, "bold"), fg="white", bg="firebrick3", pady=10)
     title.pack(side=tk.TOP, fill=tk.X)
 
     input_frame = tk.LabelFrame(root, text="Student Registration", font=("Poppins", 16, "bold"), padx=20, pady=20, bd=3, bg="whitesmoke", relief="solid", fg="black")
@@ -223,43 +223,61 @@ def clear_form():
 def login_ui(root):
     global username_var, password_var
     root.title("Student Management System")
-    root.geometry("400x300")
-    root.config(bg="whitesmoke")
+    root.geometry("500x400")
+    root.config(bg="whitesmoke") 
 
-    tk.Label(root, text="Login", font=("Poppins", 24, "bold"), bg="whitesmoke", fg="black").pack(pady=20)
+    title = tk.Label(root, text="Login Account", font=("bold", 28, "bold"), fg="white", bg="firebrick3", pady=10)
+    title.pack(side=tk.TOP, fill=tk.X)
     frame = tk.Frame(root, bg="whitesmoke")
-    frame.pack(pady=10)
+    frame.pack(pady=10, padx=20)
 
-    tk.Label(frame, text="Username:", font=("Arial", 14), bg="whitesmoke").grid(row=0, column=0, pady=5, sticky=tk.W)
-    tk.Entry(frame, textvariable=username_var, font=("Arial", 14), bd=2, relief="solid", width=20).grid(row=0, column=1, pady=5)
-    tk.Label(frame, text="Password:", font=("Arial", 14), bg="whitesmoke").grid(row=1, column=0, pady=5, sticky=tk.W)
-    tk.Entry(frame, textvariable=password_var, font=("Arial", 14), bd=2, relief="solid", show="*", width=20).grid(row=1, column=1, pady=5)
+    tk.Label(frame, text="Username:", font=("Arial", 14), bg="whitesmoke", anchor="w").grid(row=0, column=0, pady=10, padx=10, sticky="w")
+    tk.Entry(frame, textvariable=username_var, font=("Arial", 14), bd=2, relief="solid", width=25).grid(row=0, column=1, pady=10, padx=10)
 
-    tk.Button(frame, text="Login", command=lambda: login(root), font=("Arial", 14), bg="#4CAF50", fg="white").grid(row=2, column=1, columnspan=1, padx=(0, 5), pady=10)
-    tk.Button(frame, text="Register", command=lambda: register(root), font=("Arial", 14), bg="#2196F3", fg="white").grid(row=3, column=1, columnspan=1, padx=(0, 5), pady=10)
-    tk.Button(frame, text="Exit", command=root.destroy, font=("Arial", 14), bg="#F44336", fg="white").grid(row=4, column=1, columnspan=1, padx=(0, 5), pady=10)
+    tk.Label(frame, text="Password:", font=("Arial", 14), bg="whitesmoke", anchor="w").grid(row=1, column=0, pady=10, padx=10, sticky="w")
+    tk.Entry(frame, textvariable=password_var, font=("Arial", 14), bd=2, relief="solid", show="*", width=25).grid(row=1, column=1, pady=10, padx=10)
+
+    button_frame = tk.Frame(root, bg="whitesmoke")
+    button_frame.pack(pady=20)
+
+    tk.Button(button_frame, text="Login", command=lambda: login(root), font=("Arial", 14), bg="#4CAF50", fg="white", width=12).grid(row=0, column=0, padx=10, pady=5)
+    tk.Button(button_frame, text="Register", command=lambda: register(root), font=("Arial", 14), bg="#2196F3", fg="white", width=12).grid(row=0, column=1, padx=10, pady=5)
+    tk.Button(button_frame, text="Exit", command=root.destroy, font=("Arial", 14), bg="#F44336", fg="white", width=12).grid(row=1, column=0, columnspan=2, pady=10)
 
 def registration_ui():
     reg_root = tk.Tk()
-    global reg_username_var, reg_password_var
+    reg_root.title("Register Form")
+    reg_root.geometry("500x400")
+    reg_root.config(bg="whitesmoke")
+
     reg_username_var = tk.StringVar()
     reg_password_var = tk.StringVar()
 
-    reg_root.title("Register Form")
-    reg_root.geometry("400x300")
-    reg_root.config(bg="whitesmoke")
+    def showpassword():
+        if password_entry.cget('show') == '*':
+            password_entry.config(show='')
+            toggle_btn.config(text="Hide")
+        else:
+            password_entry.config(show='*')
+            toggle_btn.config(text="Show")
 
-    tk.Label(reg_root, text="Register", font=("Poppins", 24, "bold"), bg="whitesmoke", fg="black").pack(pady=20)
+    title = tk.Label(reg_root, text="Register Account", font=("bold", 28, "bold"), fg="white", bg="firebrick3", pady=10)
+    title.pack(side=tk.TOP, fill=tk.X)    
     frame = tk.Frame(reg_root, bg="whitesmoke")
     frame.pack(pady=10)
 
-    tk.Label(frame, text="Username:", font=("Arial", 14), bg="whitesmoke").grid(row=0, column=0, pady=5, sticky=tk.W)
-    tk.Entry(frame, textvariable=reg_username_var, font=("Arial", 14), bd=2, relief="solid", width=20).grid(row=0, column=1, pady=5)
-    tk.Label(frame, text="Password:", font=("Arial", 14), bg="whitesmoke").grid(row=1, column=0, pady=5, sticky=tk.W)
-    tk.Entry(frame, textvariable=reg_password_var, font=("Arial", 14), bd=2, relief="solid", show="*", width=20).grid(row=1, column=1, pady=5)
+    tk.Label(frame, text="Username:", font=("Arial", 14), bg="whitesmoke").grid(row=0, column=0, pady=5, padx=10, sticky=tk.W)
+    tk.Entry(frame, textvariable=reg_username_var, font=("Arial", 14), bd=2, relief="solid", width=25).grid(row=0, column=1, pady=5)
 
-    tk.Button(frame, text="Register", command=lambda: register_user(reg_username_var.get(), reg_password_var.get()), font=("Arial", 14), bg="#4CAF50", fg="white").grid(row=2, column=1, columnspan=2, pady=10)
-    tk.Button(frame, text="Back", command=reg_root.destroy, font=("Arial", 14), bg="#F44336", fg="white").grid(row=3, column=1, columnspan=2, pady=10)
+    tk.Label(frame, text="Password:", font=("Arial", 14), bg="whitesmoke").grid(row=1, column=0, pady=5, padx=10, sticky=tk.W)
+    password_entry = tk.Entry(frame, textvariable=reg_password_var, font=("Arial", 14), bd=2, relief="solid", show="*", width=25)
+    password_entry.grid(row=1, column=1, pady=5)
+
+    toggle_btn = tk.Button(frame, text="Show", font=("Arial", 10), bg="lightgray", command=showpassword)
+    toggle_btn.grid(row=1, column=2, padx=5)
+
+    tk.Button(frame, text="Register", command=lambda: register_user(reg_username_var.get(), reg_password_var.get()),font=("Arial", 14), bg="#4CAF50", fg="white", width=12).grid(row=2, column=0, columnspan=2, pady=10)
+    tk.Button(frame, text="Back", command=reg_root.destroy, font=("Arial", 14), bg="#F44336", fg="white", width=12).grid(row=3, column=0, columnspan=2, pady=10)
     reg_root.mainloop()
 
 if __name__ == "__main__":
