@@ -9,6 +9,9 @@
 
 # Database
 ![image](https://github.com/user-attachments/assets/e18a276d-b776-4f93-a7e4-15bf9d1024c0)
+```sh
+name database: result.db
+```
 
 # Install
 ```sh
