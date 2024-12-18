@@ -15,7 +15,7 @@ name database: result.db
 
 # Install
 ```sh
-git clone https://github.com/FoowsIsBack/Student_Management_System.git
+git clone https://github.com/FoowsIsBack/Student_Management_SystemV2.git
 cd Student_Management_System
 python3 student_management
 ```
